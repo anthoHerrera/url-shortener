@@ -27,7 +27,16 @@ const createShortUrl = async (req, res) => {
 };
 
 const getShortUrl = async (req, res) => {
-    
+    const { id: short } = req.params;
+    if (!short) {
+        res.json({ error: "URL not found" });
+    }
+    const urlShort = await ShortUrl.findOne({ short: short });
+    if (urlShort) {
+        res.redirect(urlShort.url);
+    } else {
+        res.json({ error: "URL not found" });
+    }
 };
 
 module.exports = {
